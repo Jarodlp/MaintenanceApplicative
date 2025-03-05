@@ -55,6 +55,14 @@ class GildedRoseTest {
     }
 
     @Test
+    void TestAgedBrieQualite50(){
+        Item[] items = new Item[] {new Item("Aged Brie", 10, 50)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals("Aged Brie, 9, 50", app.items[0].toString());
+    }
+
+    @Test
     void TestBackstage10jours(){
         Item[] items = new Item[] {new Item("Backstage passes to a TAFKAL80ETC concert", 10, 30)};
         GildedRose app = new GildedRose(items);
@@ -78,4 +86,11 @@ class GildedRoseTest {
         assertEquals("Backstage passes to a TAFKAL80ETC concert, -1, 0", app.items[0].toString());
     }
 
+    @Test
+    void TestBackstageQualite50(){
+        Item[] items = new Item[] {new Item("Backstage passes to a TAFKAL80ETC concert", 10, 50)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals("Backstage passes to a TAFKAL80ETC concert, 9, 50", app.items[0].toString());
+    }
 }
