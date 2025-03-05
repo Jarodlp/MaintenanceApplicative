@@ -22,9 +22,10 @@ class GildedRose {
             handleSulfuras(item);
         } else if (item.name.equals(CONJURED)) {
             handleConjured(item);
+        } else if (item.name.equals(AGED_BRIE)) {
+            handleAgedBrie(item);
         } else {
-            if (!item.name.equals(AGED_BRIE)
-                    && !item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
+            if (!item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
                 if (item.quality > 0) {
                     item.quality = item.quality - 1;
                 }
@@ -51,18 +52,12 @@ class GildedRose {
             item.sellIn = item.sellIn - 1;
 
             if (item.sellIn < 0) {
-                if (!item.name.equals(AGED_BRIE)) {
-                    if (!item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
-                        if (item.quality > 0) {
-                            item.quality = item.quality - 1;
-                        }
-                    } else {
-                        item.quality = item.quality - item.quality;
+                if (!item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
+                    if (item.quality > 0) {
+                        item.quality = item.quality - 1;
                     }
                 } else {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;
-                    }
+                    item.quality = item.quality - item.quality;
                 }
             }
         }
@@ -86,8 +81,23 @@ class GildedRose {
             }
         }
 
-        if (item.quality < 0){
+        if (item.quality < 0) {
             item.quality = 0;
+        }
+    }
+
+    void handleAgedBrie(Item item) {
+
+        if (item.quality < 50) {
+            item.quality = item.quality + 1;
+        }
+
+        item.sellIn = item.sellIn - 1;
+
+        if (item.sellIn < 0) {
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
+            }
         }
     }
 }
