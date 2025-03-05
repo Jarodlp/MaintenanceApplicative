@@ -39,6 +39,22 @@ class GildedRoseTest {
     }
 
     @Test
+    void TestConjuredPeremption(){
+        Item[] items = new Item[] {new Item("Conjured", 0, 30)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals("Conjured, -1, 26", app.items[0].toString());
+    }
+
+    @Test
+    void TestConjuredQualite1(){
+        Item[] items = new Item[] {new Item("Conjured", 0, 1)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals("Conjured, -1, 0", app.items[0].toString());
+    }
+
+    @Test
     void TestAgedBrie(){
         Item[] items = new Item[] {new Item("Aged Brie", 10, 30)};
         GildedRose app = new GildedRose(items);
