@@ -1,7 +1,6 @@
 package trivia;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 // REFACTOR ME
 public class Game implements IGame {
@@ -54,13 +53,13 @@ public class Game implements IGame {
 
     private String currentCategory() {
         Player currentPlayer = players.get(this.currentPlayer);
-        if (currentPlayer.place == 1 || currentPlayer.place == 5 || currentPlayer.place == 9) {
+        if (currentPlayer.place % 4 == 1) {
             return "Pop";
         }
-        if (currentPlayer.place == 2 || currentPlayer.place == 6 || currentPlayer.place == 10) {
+        if (currentPlayer.place % 4 == 2) {
             return "Science";
         }
-        if (currentPlayer.place == 3 || currentPlayer.place == 7 || currentPlayer.place == 11) {
+        if (currentPlayer.place % 4 == 3) {
             return "Sports";
         }
         return "Rock";
@@ -68,24 +67,22 @@ public class Game implements IGame {
 
     public boolean handleCorrectAnswer() {
         Player currentPlayer = players.get(this.currentPlayer);
-            if (isGettingOutOfPenaltyBox || !currentPlayer.inPenaltyBox) {
-                System.out.println("Answer was correct!!!!");
-                currentPlayer.purse++;
-                System.out.println(currentPlayer
-                        + " now has "
-                        + currentPlayer.purse
-                        + " Gold Coins.");
+        if (isGettingOutOfPenaltyBox || !currentPlayer.inPenaltyBox) {
+            System.out.println("Answer was correct!!!!");
+            currentPlayer.purse++;
+            System.out.println(currentPlayer
+                    + " now has "
+                    + currentPlayer.purse
+                    + " Gold Coins.");
 
-                boolean winner = didPlayerWin();
-                this.currentPlayer++;
-                if (this.currentPlayer == players.size()) this.currentPlayer = 0;
+            boolean winner = didPlayerWin();
+            joueurSuivant();
 
-                return winner;
-            } else {
-                this.currentPlayer++;
-                if (this.currentPlayer == players.size()) this.currentPlayer = 0;
-                return true;
-            }
+            return winner;
+        } else {
+            joueurSuivant();
+            return true;
+        }
     }
 
     public boolean wrongAnswer() {
@@ -93,9 +90,13 @@ public class Game implements IGame {
         System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
         players.get(currentPlayer).inPenaltyBox = true;
 
+        joueurSuivant();
+        return true;
+    }
+
+    public void joueurSuivant() {
         currentPlayer++;
         if (currentPlayer == players.size()) currentPlayer = 0;
-        return true;
     }
 
 
