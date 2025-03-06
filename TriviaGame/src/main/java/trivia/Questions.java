@@ -1,38 +1,25 @@
 package trivia;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Questions {
-    private LinkedList<String> popQuestions = new LinkedList<>();
-    private LinkedList<String> scienceQuestions = new LinkedList<>();
-    private LinkedList<String> sportsQuestions = new LinkedList<>();
-    private LinkedList<String> rockQuestions = new LinkedList<>();
+    public static final List<String> CATEGORIES = List.of("Rock", "Pop", "Science", "Sports");
+    private final HashMap<String, LinkedList<String>> questions = new HashMap<>();
 
     public Questions() {
+        for (String category : CATEGORIES) {
+            questions.put(category, new LinkedList<>());
+        }
         for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast("Science Question " + i);
-            sportsQuestions.addLast("Sports Question " + i);
-            rockQuestions.addLast("Rock Question " + i);
+            for (String category : CATEGORIES) {
+                questions.get(category).addLast(category + " Question " + i);
+            }
         }
     }
 
     public void getNextQuestion(String category) {
-        switch (category) {
-            case "Pop" :
-                System.out.println(popQuestions.removeFirst());
-                break;
-            case "Science":
-                System.out.println(scienceQuestions.removeFirst());
-                break;
-            case "Sports":
-                System.out.println(sportsQuestions.removeFirst());
-                break;
-            case "Rock":
-                System.out.println(rockQuestions.removeFirst());
-                break;
-            default:
-                throw new IllegalArgumentException(category + " non valide");
-        }
+        System.out.println(questions.get(category).removeFirst());
     }
 }
