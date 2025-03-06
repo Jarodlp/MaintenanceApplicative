@@ -32,34 +32,23 @@ public class Game implements IGame {
         System.out.println("They have rolled a " + roll);
 
         if (currentPlayer.inPenaltyBox) {
-            if (roll % 2 != 0) {
-                isGettingOutOfPenaltyBox = true;
-
-                System.out.println(currentPlayer + " is getting out of the penalty box");
-                currentPlayer.place += roll;
-                if (currentPlayer.place > 12) currentPlayer.place -= 12;
-
-                System.out.println(currentPlayer
-                        + "'s new location is "
-                        + currentPlayer.place);
-                System.out.println("The category is " + currentCategory());
-                questions.getNextQuestion(currentCategory());
-            } else {
+            if (roll % 2 == 0) {
                 System.out.println(currentPlayer + " is not getting out of the penalty box");
                 isGettingOutOfPenaltyBox = false;
+                return;
             }
-
-        } else {
-
-            currentPlayer.place += roll;
-            if (currentPlayer.place > 12) currentPlayer.place -= 12;
-
-            System.out.println(currentPlayer
-                    + "'s new location is "
-                    + currentPlayer.place);
-            System.out.println("The category is " + currentCategory());
-            questions.getNextQuestion(currentCategory());
+            System.out.println(currentPlayer + " is getting out of the penalty box");
+            isGettingOutOfPenaltyBox = true;
         }
+
+        currentPlayer.place += roll;
+        if (currentPlayer.place > 12) currentPlayer.place -= 12;
+
+        System.out.println(currentPlayer
+                + "'s new location is "
+                + currentPlayer.place);
+        System.out.println("The category is " + currentCategory());
+        questions.getNextQuestion(currentCategory());
     }
 
 
@@ -79,8 +68,7 @@ public class Game implements IGame {
 
     public boolean handleCorrectAnswer() {
         Player currentPlayer = players.get(this.currentPlayer);
-        if (currentPlayer.inPenaltyBox) {
-            if (isGettingOutOfPenaltyBox) {
+            if (isGettingOutOfPenaltyBox || !currentPlayer.inPenaltyBox) {
                 System.out.println("Answer was correct!!!!");
                 currentPlayer.purse++;
                 System.out.println(currentPlayer
@@ -98,23 +86,6 @@ public class Game implements IGame {
                 if (this.currentPlayer == players.size()) this.currentPlayer = 0;
                 return true;
             }
-
-
-        } else {
-
-            System.out.println("Answer was correct!!!!");
-            currentPlayer.purse++;
-            System.out.println(currentPlayer
-                    + " now has "
-                    + currentPlayer.purse
-                    + " Gold Coins.");
-
-            boolean winner = didPlayerWin();
-            this.currentPlayer++;
-            if (this.currentPlayer == players.size()) this.currentPlayer = 0;
-
-            return winner;
-        }
     }
 
     public boolean wrongAnswer() {
