@@ -55,7 +55,7 @@ public class PlayGame {
    }
 
    private static int readRoll() {
-      System.out.print(">> Throw a die and input roll, or [ENTER] to generate a random roll: ");
+      System.out.print(">> Throw a dice and input roll, or [ENTER] to generate a random roll: ");
       String rollStr = scanner.nextLine().trim();
       if (rollStr.isEmpty()) {
          int roll = new Random().nextInt(6) + 1;
