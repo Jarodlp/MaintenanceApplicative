@@ -52,8 +52,7 @@ public class Game implements IGame {
 
 
     private String currentCategory() {
-        // Rock = 0, Pop = 1, Science = 2, Sports = 3
-        return Questions.CATEGORIES.get(players.get(currentPlayer).place % 4);
+        return Questions.CATEGORIES.get(players.get(currentPlayer).place % Questions.CATEGORIES.size());
     }
 
     public boolean handleCorrectAnswer() {
