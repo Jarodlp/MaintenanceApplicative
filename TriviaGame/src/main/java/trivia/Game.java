@@ -65,6 +65,7 @@ public class Game implements IGame {
                     + currentPlayer.purse
                     + " Gold Coins.");
 
+            currentPlayer.inPenaltyBox = false;
             boolean winner = didPlayerWin();
             joueurSuivant();
 
