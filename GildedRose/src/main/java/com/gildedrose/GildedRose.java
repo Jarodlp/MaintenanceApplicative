@@ -18,26 +18,32 @@ class GildedRose {
     }
 
     public void handleItem(Item item) {
-        if (item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-            handleSulfuras(item);
-        } else if (item.name.equals(CONJURED)) {
-            handleConjured(item);
-        } else if (item.name.equals(AGED_BRIE)) {
-            handleAgedBrie(item);
-        } else if (item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
-            handleBackstage(item);
-        } else {
-            if (item.quality > 0) {
-                item.quality = item.quality - 1;
-            }
-
-            item.sellIn = item.sellIn - 1;
-
-            if (item.sellIn < 0) {
+        switch (item.name) {
+            case SULFURAS_HAND_OF_RAGNAROS:
+                handleSulfuras(item);
+                break;
+            case CONJURED:
+                handleConjured(item);
+                break;
+            case AGED_BRIE:
+                handleAgedBrie(item);
+                break;
+            case BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT:
+                handleBackstage(item);
+                break;
+            default:
                 if (item.quality > 0) {
                     item.quality = item.quality - 1;
                 }
-            }
+
+                item.sellIn = item.sellIn - 1;
+
+                if (item.sellIn < 0) {
+                    if (item.quality > 0) {
+                        item.quality = item.quality - 1;
+                    }
+                }
+                break;
         }
     }
 
@@ -84,17 +90,15 @@ class GildedRose {
         if (item.quality < 50) {
             item.quality = item.quality + 1;
 
-            if (item.name.equals(BACKSTAGE_PASSES_TO_A_TAFKAL_80_ETC_CONCERT)) {
-                if (item.sellIn < 11) {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;
-                    }
+            if (item.sellIn < 11) {
+                if (item.quality < 50) {
+                    item.quality = item.quality + 1;
                 }
+            }
 
-                if (item.sellIn < 6) {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;
-                    }
+            if (item.sellIn < 6) {
+                if (item.quality < 50) {
+                    item.quality = item.quality + 1;
                 }
             }
         }
