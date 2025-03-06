@@ -6,27 +6,9 @@ import java.util.LinkedList;
 // REFACTOR ME
 public class Game implements IGame {
     ArrayList<Player> players = new ArrayList<Player>();
-
-    LinkedList popQuestions = new LinkedList();
-    LinkedList scienceQuestions = new LinkedList();
-    LinkedList sportsQuestions = new LinkedList();
-    LinkedList rockQuestions = new LinkedList();
-
+    Questions questions = new Questions();
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
-
-    public Game() {
-        for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast(("Science Question " + i));
-            sportsQuestions.addLast(("Sports Question " + i));
-            rockQuestions.addLast(createRockQuestion(i));
-        }
-    }
-
-    public String createRockQuestion(int index) {
-        return "Rock Question " + index;
-    }
 
     public boolean isPlayable() {
         return (howManyPlayers() >= 2);
@@ -61,7 +43,7 @@ public class Game implements IGame {
                         + "'s new location is "
                         + currentPlayer.place);
                 System.out.println("The category is " + currentCategory());
-                askQuestion();
+                questions.getNextQuestion(currentCategory());
             } else {
                 System.out.println(currentPlayer + " is not getting out of the penalty box");
                 isGettingOutOfPenaltyBox = false;
@@ -76,25 +58,7 @@ public class Game implements IGame {
                     + "'s new location is "
                     + currentPlayer.place);
             System.out.println("The category is " + currentCategory());
-            askQuestion();
-        }
-
-    }
-
-    private void askQuestion() {
-        switch (currentCategory()) {
-            case "Pop":
-                System.out.println(popQuestions.removeFirst());
-                break;
-            case "Science":
-                System.out.println(scienceQuestions.removeFirst());
-                break;
-            case "Sports":
-                System.out.println(sportsQuestions.removeFirst());
-                break;
-            case "Rock":
-                System.out.println(rockQuestions.removeFirst());
-                break;
+            questions.getNextQuestion(currentCategory());
         }
     }
 
