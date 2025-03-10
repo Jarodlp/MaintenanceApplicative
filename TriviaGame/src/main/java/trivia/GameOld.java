@@ -112,7 +112,7 @@ public class GameOld implements IGame {
       return "Rock";
    }
 
-   public boolean handleCorrectAnswer() {
+   public boolean correctAnswer() {
       if (inPenaltyBox[currentPlayer]) {
          if (isGettingOutOfPenaltyBox) {
             System.out.println("Answer was correct!!!!");

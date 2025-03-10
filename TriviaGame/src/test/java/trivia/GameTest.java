@@ -2,12 +2,12 @@
 package trivia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Random;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 
@@ -30,7 +30,6 @@ public class GameTest {
 	}
 
 	@Test
-	@Disabled("enable back and set a particular seed to see the output")
 	public void oneSeed() {
 		testSeed(1, true);
 	}
@@ -53,7 +52,7 @@ public class GameTest {
 				if (rand.nextInt(9) == 7) {
 					notAWinner = aGame.wrongAnswer();
 				} else {
-					notAWinner = aGame.handleCorrectAnswer();
+					notAWinner = aGame.correctAnswer();
 				}
 
 			} while (notAWinner);
@@ -62,5 +61,18 @@ public class GameTest {
 		}
 
 		return new String(baos.toByteArray());
+	}
+
+	@Test
+	public void testEnAjoutantUneCategorie() {
+		// Je ne teste pas la différence entre Game et GameOld car GameOld ne prend pas en compte la classe Questions
+		// On teste juste si la 4ème case sera une case "Video Games", pour ça on prend le seed 1 où
+		// Pat tombe sur la case 4
+		Questions.CATEGORIES.add("Video Games");
+		assertEquals("[Rock, Pop, Science, Sports, Video Games]", Questions.CATEGORIES.toString());
+		Game game = new Game();
+		String output = extractOutput(new Random(1), game);
+		Questions.CATEGORIES.remove("Video Games");
+		assertTrue(output.contains("new location is 4\r\nThe category is Video Games"));
 	}
 }

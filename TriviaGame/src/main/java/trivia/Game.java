@@ -56,7 +56,7 @@ public class Game implements IGame {
         return Questions.CATEGORIES.get(players.get(currentPlayer).place % Questions.CATEGORIES.size());
     }
 
-    public boolean handleCorrectAnswer() {
+    public boolean correctAnswer() {
         Player currentPlayer = players.get(this.currentPlayer);
         if (isGettingOutOfPenaltyBox || !currentPlayer.inPenaltyBox) {
             System.out.println("Answer was correct!!!!");
