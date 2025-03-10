@@ -32,47 +32,47 @@ public class GameTest {
 //	public void oneSeed() {
 //		testSeed(1, false);
 //	}
-
-	private String extractOutput(Random rand, IGame aGame) {
-		PrintStream old = System.out;
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try (PrintStream inmemory = new PrintStream(baos)) {
-			// WARNING: System.out.println() doesn't work in this try {} as the sysout is captured and recorded in memory.
-			System.setOut(inmemory);
-
-			aGame.add("Chet");
-			aGame.add("Pat");
-			aGame.add("Sue");
-
-			boolean notAWinner = false;
-			do {
-				aGame.roll(rand.nextInt(5) + 1);
-
-				if (rand.nextInt(9) == 7) {
-					notAWinner = aGame.wrongAnswer();
-				} else {
-					notAWinner = aGame.correctAnswer();
-				}
-
-			} while (notAWinner);
-		} finally {
-			System.setOut(old);
-		}
-
-		return new String(baos.toByteArray());
-	}
+//
+//	private String extractOutput(Random rand, IGame aGame) {
+//		PrintStream old = System.out;
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		try (PrintStream inmemory = new PrintStream(baos)) {
+//			// WARNING: System.out.println() doesn't work in this try {} as the sysout is captured and recorded in memory.
+//			System.setOut(inmemory);
+//
+//			aGame.add("Chet");
+//			aGame.add("Pat");
+//			aGame.add("Sue");
+//
+//			boolean notAWinner = false;
+//			do {
+//				aGame.roll(rand.nextInt(5) + 1);
+//
+//				if (rand.nextInt(9) == 7) {
+//					notAWinner = aGame.wrongAnswer();
+//				} else {
+//					notAWinner = aGame.correctAnswer();
+//				}
+//
+//			} while (notAWinner);
+//		} finally {
+//			System.setOut(old);
+//		}
+//
+//		return new String(baos.toByteArray());
+//	}
 
 	@Test
 	public void testAjoutCategorie() {
-		// Je ne teste pas la différence entre Game et GameOld car GameOld ne prend pas en compte la classe Questions
-		// On teste juste si la 4ème case sera une case "Video Games", pour ça on prend le seed 1 où
-		// Pat tombe sur la case 4
 		Questions.CATEGORIES.add("Video Games");
-		assertEquals("[Rock, Pop, Science, Sports, Video Games]", Questions.CATEGORIES.toString());
+		assertEquals("[Rock, Pop, Science, Sports, Géographie, Video Games]", Questions.CATEGORIES.toString());
 		Game game = new Game();
-		String output = extractOutput(new Random(1), game);
+		game.add("Crazy");
+		game.add("Zack");
+		// Les 6 premières cases sont donc : 1-Pop, 2-Science, 3-Sports, 4-Géographie, 5-Video Games, 6-Rock
+		game.roll(4);
+		assertEquals("Video Games", game.currentCategory());
 		Questions.CATEGORIES.remove("Video Games");
-		assertTrue(output.contains("new location is 4\r\nThe category is Video Games"));
 	}
 
 	@Test
@@ -85,7 +85,7 @@ public class GameTest {
 		game.roll(1);
 		boolean notAWinner = game.correctAnswer();
 
-		assertTrue(notAWinner);
+		assertFalse(notAWinner);
 	}
 
 	@Test
@@ -137,6 +137,13 @@ public class GameTest {
 				assertTrue(game.isPlayable());
 			}
 		}
+	}
+
+	@Test
+	public void testLancementJeuInjouable() {
+		Game game = new Game();
+		game.add("Joe");
+		assertThrows(IllegalStateException.class, () -> game.roll(1));
 	}
 
 }

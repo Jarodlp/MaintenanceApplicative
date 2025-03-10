@@ -26,6 +26,9 @@ public class Game implements IGame {
     }
 
     public void roll(int roll) {
+        if (!isPlayable()) {
+            throw new IllegalStateException("Game is unplayable");
+        }
         Player currentPlayer = players.get(this.currentPlayer);
         System.out.println(currentPlayer + " is the current player");
         System.out.println("They have rolled a " + roll);
@@ -50,7 +53,7 @@ public class Game implements IGame {
     }
 
 
-    private String currentCategory() {
+    public String currentCategory() {
         return Questions.CATEGORIES.get(players.get(currentPlayer).place % Questions.CATEGORIES.size());
     }
 

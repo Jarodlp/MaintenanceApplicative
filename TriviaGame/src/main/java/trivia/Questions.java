@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Questions {
-    public static ArrayList<String> CATEGORIES = new ArrayList<>(List.of( "Rock", "Pop", "Science", "Sports"));
+    public static ArrayList<String> CATEGORIES = new ArrayList<>(List.of( "Rock", "Pop", "Science", "Sports", "Géographie"));
     private final HashMap<String, LinkedList<String>> questions = new HashMap<>();
 
     public Questions() {
