@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 // REFACTOR ME
 public class Game implements IGame {
+    public static final int nbCasesPlateau = 12;
     ArrayList<Player> players = new ArrayList<Player>();
     Questions questions = new Questions();
     int currentPlayer = 0;
@@ -41,7 +42,7 @@ public class Game implements IGame {
         }
 
         currentPlayer.place += roll;
-        if (currentPlayer.place > 12) currentPlayer.place -= 12;
+        if (currentPlayer.place > nbCasesPlateau) currentPlayer.place -= nbCasesPlateau;
 
         System.out.println(currentPlayer
                 + "'s new location is "
