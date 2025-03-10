@@ -80,7 +80,7 @@ public class GameTest {
 		Game game = new Game();
 		game.add("Winner");
 		game.add("Looser");
-		game.players.get(0).purse = 6;
+		game.players.get(0).purse = 5;
 
 		game.roll(1);
 		boolean notAWinner = game.correctAnswer();
@@ -124,6 +124,19 @@ public class GameTest {
 		game.roll(2);
 		assertEquals(2, game.players.get(0).place);
 		assertEquals(12, game.players.get(1).place);
+	}
+
+	@Test
+	public void testJeuJouable() {
+		Game game = new Game();
+		for (int i = 1; i < 8; i++) {
+			game.add("Player " + i);
+			if (i < 2 || i > 6) {
+				assertFalse(game.isPlayable());
+			} else {
+				assertTrue(game.isPlayable());
+			}
+		}
 	}
 
 }

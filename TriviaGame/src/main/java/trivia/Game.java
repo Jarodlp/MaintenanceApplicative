@@ -10,7 +10,7 @@ public class Game implements IGame {
     int currentPlayer = 0;
 
     public boolean isPlayable() {
-        return (howManyPlayers() >= 2);
+        return (howManyPlayers() >= 2) && (howManyPlayers() <= 6);
     }
 
     public boolean add(String playerName) {
