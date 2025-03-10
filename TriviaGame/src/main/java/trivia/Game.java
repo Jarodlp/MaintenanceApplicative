@@ -8,7 +8,6 @@ public class Game implements IGame {
     ArrayList<Player> players = new ArrayList<Player>();
     Questions questions = new Questions();
     int currentPlayer = 0;
-    boolean isGettingOutOfPenaltyBox;
 
     public boolean isPlayable() {
         return (howManyPlayers() >= 2);
@@ -34,11 +33,10 @@ public class Game implements IGame {
         if (currentPlayer.inPenaltyBox) {
             if (roll % 2 == 0) {
                 System.out.println(currentPlayer + " is not getting out of the penalty box");
-                isGettingOutOfPenaltyBox = false;
                 return;
             }
             System.out.println(currentPlayer + " is getting out of the penalty box");
-            isGettingOutOfPenaltyBox = true;
+            currentPlayer.inPenaltyBox = false;
         }
 
         currentPlayer.place += roll;
@@ -58,7 +56,7 @@ public class Game implements IGame {
 
     public boolean correctAnswer() {
         Player currentPlayer = players.get(this.currentPlayer);
-        if (isGettingOutOfPenaltyBox || !currentPlayer.inPenaltyBox) {
+        if (!currentPlayer.inPenaltyBox) {
             System.out.println("Answer was correct!!!!");
             currentPlayer.purse++;
             System.out.println(currentPlayer
@@ -66,7 +64,6 @@ public class Game implements IGame {
                     + currentPlayer.purse
                     + " Gold Coins.");
 
-            currentPlayer.inPenaltyBox = false;
             boolean winner = didPlayerWin();
             joueurSuivant();
 
@@ -78,9 +75,10 @@ public class Game implements IGame {
     }
 
     public boolean wrongAnswer() {
+        Player currentPlayer = players.get(this.currentPlayer);
         System.out.println("Question was incorrectly answered");
-        System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
-        players.get(currentPlayer).inPenaltyBox = true;
+        System.out.println(currentPlayer + " was sent to the penalty box");
+        currentPlayer.inPenaltyBox = true;
 
         joueurSuivant();
         return true;
