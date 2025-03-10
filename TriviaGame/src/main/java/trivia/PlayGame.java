@@ -14,10 +14,10 @@ public class PlayGame {
       System.out.println("*** Welcome to Trivia Game ***\n");
       System.out.println("Enter number of players: 1-6");
       int playerCount = Integer.parseInt(scanner.nextLine());
-      if (playerCount < 1 || playerCount > 6) throw new IllegalArgumentException("No player 1..6");
+      if (playerCount < 2 || playerCount > 6) throw new IllegalArgumentException("No player 2..6");
       System.out.println("Reading names for " + playerCount + " players:");
 
-      IGame aGame = new Game();
+      Game aGame = new Game();
 
       for (int i = 1; i <= playerCount; i++) {
          System.out.print("Player "+i+" name: ");
@@ -28,17 +28,20 @@ public class PlayGame {
       System.out.println("\n\n--Starting game--");
 
 
-      boolean notAWinner;
+      boolean notAWinner = true;
       do {
          int roll = readRoll();
          aGame.roll(roll);
 
-         System.out.print(">> Was the answer correct? [y/n] ");
-         boolean correct = readYesNo();
-         if (correct) {
-            notAWinner = aGame.correctAnswer();
-         } else {
-            notAWinner = aGame.wrongAnswer();
+         if (!aGame.players.get(aGame.currentPlayer).inPenaltyBox) {
+
+            System.out.print(">> Was the answer correct? [y/n] ");
+            boolean correct = readYesNo();
+            if (correct) {
+               notAWinner = aGame.correctAnswer();
+            } else {
+               notAWinner = aGame.wrongAnswer();
+            }
          }
 
       } while (notAWinner);
