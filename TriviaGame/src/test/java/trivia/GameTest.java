@@ -146,4 +146,20 @@ public class GameTest {
 		assertThrows(IllegalStateException.class, () -> game.roll(1));
 	}
 
+	@Test
+	public void testAjoutJoueurDejaExistant() {
+		Game game = new Game();
+		game.add("Joe");
+		assertThrows(IllegalArgumentException.class, () -> game.add("Joe"));
+	}
+
+	@Test
+	public void testAjoutJoueurApresDebutPartie() {
+		Game game = new Game();
+		game.add("Joe");
+		game.add("John");
+		game.roll(1);
+		assertThrows(IllegalStateException.class, () -> game.add("Retardataire"));
+	}
+
 }

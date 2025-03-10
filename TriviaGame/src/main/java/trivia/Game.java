@@ -14,6 +14,14 @@ public class Game implements IGame {
     }
 
     public boolean add(String playerName) {
+        for (Player player : players) {
+            if (player.name.equals(playerName)) {
+                throw new IllegalArgumentException("Player already exists");
+            }
+            if (player.place != 1 || player.purse != 0 || player.inPenaltyBox) {
+                throw new IllegalStateException("Can't add players after the game has started");
+            }
+        }
         players.add(new Player(playerName));
 
         System.out.println(playerName + " was added");
