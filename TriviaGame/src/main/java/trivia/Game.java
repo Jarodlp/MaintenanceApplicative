@@ -5,7 +5,7 @@ import java.util.ArrayList;
 // REFACTOR ME
 public class Game implements IGame {
     public static final int nbCasesPlateau = 12;
-    ArrayList<Player> players = new ArrayList<Player>();
+    ArrayList<Player> players = new ArrayList<>();
     Questions questions = new Questions();
     int currentPlayer = 0;
 

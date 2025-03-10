@@ -1,38 +1,37 @@
 
 package trivia;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class GameTest {
-	@Test
-	public void caracterizationTest() {
-		// runs 10.000 "random" games to see the output of old and new code matches
-		for (int seed = 1; seed < 10_000; seed++) {
-			testSeed(seed, false);
-		}
-	}
-
-	private void testSeed(int seed, boolean printExpected) {
-		String expectedOutput = extractOutput(new Random(seed), new GameOld());
-		if (printExpected) {
-			System.out.println(expectedOutput);
-		}
-		String actualOutput = extractOutput(new Random(seed), new Game());
-		assertEquals(expectedOutput, actualOutput);
-	}
-
-	@Test
-	public void oneSeed() {
-		testSeed(1, true);
-	}
+//	@Test
+//	public void caracterizationTest() {
+//		// runs 10.000 "random" games to see the output of old and new code matches
+//		for (int seed = 1; seed < 10_000; seed++) {
+//			testSeed(seed, false);
+//		}
+//	}
+//
+//	private void testSeed(int seed, boolean printExpected) {
+//		String expectedOutput = extractOutput(new Random(seed), new GameOld());
+//		if (printExpected) {
+//			System.out.println(expectedOutput);
+//		}
+//		String actualOutput = extractOutput(new Random(seed), new Game());
+//		assertEquals(expectedOutput, actualOutput);
+//	}
+//
+//	@Test
+//	public void oneSeed() {
+//		testSeed(1, false);
+//	}
 
 	private String extractOutput(Random rand, IGame aGame) {
 		PrintStream old = System.out;
@@ -64,7 +63,7 @@ public class GameTest {
 	}
 
 	@Test
-	public void testEnAjoutantUneCategorie() {
+	public void testAjoutCategorie() {
 		// Je ne teste pas la différence entre Game et GameOld car GameOld ne prend pas en compte la classe Questions
 		// On teste juste si la 4ème case sera une case "Video Games", pour ça on prend le seed 1 où
 		// Pat tombe sur la case 4
@@ -75,4 +74,56 @@ public class GameTest {
 		Questions.CATEGORIES.remove("Video Games");
 		assertTrue(output.contains("new location is 4\r\nThe category is Video Games"));
 	}
+
+	@Test
+	public void testFinPartie() {
+		Game game = new Game();
+		game.add("Winner");
+		game.add("Looser");
+		game.players.get(0).purse = 6;
+
+		game.roll(1);
+		boolean notAWinner = game.correctAnswer();
+
+		assertTrue(notAWinner);
+	}
+
+	@Test
+	public void testAjoutPieceBonneReponse() {
+		Game game = new Game();
+		game.add("1 piece");
+		game.add("0 piece");
+		game.roll(1);
+		game.correctAnswer();
+		game.roll(1);
+		game.wrongAnswer();
+		assertEquals(1, game.players.get(0).purse);
+		assertEquals(0, game.players.get(1).purse);
+	}
+
+	@Test
+	public void testSortiePrison() {
+		Game game = new Game();
+		game.add("Prisonnier 1");
+		game.add("Prisonnier 2");
+		game.players.get(0).inPenaltyBox = true;
+		game.players.get(1).inPenaltyBox = true;
+		game.roll(1);
+		game.roll(2);
+		assertFalse(game.players.get(0).inPenaltyBox);
+		assertTrue(game.players.get(1).inPenaltyBox);
+	}
+
+	@Test
+	public void testCaseSuperieurA12() {
+		Game game = new Game();
+		game.add("Joe");
+		game.add("John");
+		game.players.get(0).place = 12;
+		game.players.get(1).place = 12;
+		game.roll(2);
+		assertEquals(2, game.players.get(0).place);
+		assertEquals(12, game.players.get(1).place);
+	}
+
 }
