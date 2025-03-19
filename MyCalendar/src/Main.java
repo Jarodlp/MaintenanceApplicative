@@ -11,9 +11,12 @@ public class Main {
     public static void main(String[] args) {
         CalendarManager calendar = new CalendarManager();
         Scanner scanner = new Scanner(System.in);
-        Utilisateur utilisateur = new Utilisateur("","");
+        Utilisateur utilisateur = new Utilisateur("", "");
         boolean continuer = true;
         List<Utilisateur> utilisateurs = new ArrayList<>();
+
+        utilisateurs.add(new Utilisateur("Roger", "Chat"));
+        utilisateurs.add(new Utilisateur("Pierre", "KiRouhl"));
 
         while (true) {
 
@@ -42,27 +45,21 @@ public class Main {
                         System.out.print("Nom d'utilisateur: ");
                         utilisateur.nom = scanner.nextLine();
 
-                        if (utilisateur.nom.equals("Roger")) {
-                            String motDePasse = scanner.nextLine();
-                            if (!motDePasse.equals("Chat")) {
-                                utilisateur.nom = "";
-                            }
-                        } else {
-                            if (utilisateur.nom.equals("Pierre")) {
-                                String motDePasse = scanner.nextLine();
-                                if (!motDePasse.equals("KiRouhl")) {
-                                    utilisateur.nom = "";
-                                }
-                            } else {
-                                System.out.print("Mot de passe: ");
-                                String motDePasse = scanner.nextLine();
+                        System.out.print("Mot de passe: ");
+                        utilisateur.motDePasse = scanner.nextLine();
 
-                                for (Utilisateur u : utilisateurs) {
-                                    if (u.nom.equals(utilisateur.nom) && u.motDePasse.equals(motDePasse)) {
-                                        utilisateur = u;
-                                    }
-                                }
+                        boolean valide = false;
+
+                        for (Utilisateur u : utilisateurs) {
+                            if (u.nom.equals(utilisateur.nom) && u.motDePasse.equals(utilisateur.motDePasse)) {
+                                utilisateur = u;
+                                valide = true;
+                                break;
                             }
+                        }
+                        if (!valide) {
+                            System.out.println("Nom d'utilisateur ou mot de passe incorrect...");
+                            utilisateur.nom = "";
                         }
                         break;
 
@@ -77,7 +74,6 @@ public class Main {
                         } else {
                             System.out.println("Les mots de passes ne correspondent pas...");
                             utilisateur.nom = "";
-                            utilisateur.motDePasse = "";
                         }
                         break;
                 }
@@ -197,12 +193,11 @@ public class Main {
                         int duree2 = Integer.parseInt(scanner.nextLine());
                         System.out.println("Lieu :");
                         String lieu = scanner.nextLine();
-                        
+
                         StringBuilder participants = new StringBuilder(utilisateur.nom);
 
                         System.out.println("Ajouter un participant ? (oui / non)");
-                        while (scanner.nextLine().equals("oui"))
-                        {
+                        while (scanner.nextLine().equals("oui")) {
                             System.out.print("Participants : " + participants);
                             participants.append(", ").append(scanner.nextLine());
                             System.out.println("Ajouter un participant ? (oui / non)");
@@ -215,7 +210,7 @@ public class Main {
                         System.out.println("Événement ajouté.");
                         break;
 
-                        case "4":
+                    case "4":
                         // Ajout simplifié d'une réunion
                         System.out.print("Titre de l'événement : ");
                         String titre3 = scanner.nextLine();
@@ -246,6 +241,7 @@ public class Main {
                 }
             }
         }
+
     }
 
     private static void afficherListe(List<Event> evenements) {
