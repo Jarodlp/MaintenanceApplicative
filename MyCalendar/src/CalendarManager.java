@@ -20,16 +20,7 @@ public class CalendarManager {
     public List<Event> eventsDansPeriode(LocalDateTime debut, LocalDateTime fin) {
         List<Event> result = new Evenements();
         for (Event e : events) {
-            if (e instanceof Periodique) {
-                LocalDateTime temp = e.dateDebut;
-                while (temp.isBefore(fin)) {
-                    if (!temp.isBefore(debut)) {
-                        result.add(e);
-                        break;
-                    }
-                    temp = temp.plusDays(((Periodique) e).frequenceJours.frequenceJours());
-                }
-            } else if (!e.dateDebut.isBefore(debut) && !e.dateDebut.isAfter(fin)) {
+            if (e.eventDansPeriode(debut, fin)) {
                 result.add(e);
             }
         }

@@ -19,5 +19,9 @@ public abstract class Event {
         this.dureeMinutes = new DureeMinutes(dureeMinutes);
     }
 
+    public boolean eventDansPeriode(LocalDateTime debut, LocalDateTime fin) {
+        return (!this.dateDebut.isBefore(debut) && !this.dateDebut.isAfter(fin));
+    }
+
     public abstract String description();
 }
