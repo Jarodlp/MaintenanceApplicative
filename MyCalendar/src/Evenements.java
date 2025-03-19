@@ -15,4 +15,13 @@ public class Evenements extends ArrayList<Event>{
         }
         return result.toString();
     }
+
+    public void supprimerEventParSonEventId(int eventId) {
+        for (Event e : this) {
+            if (e.eventId.eventId == eventId) {
+                this.remove(e);
+                return;
+            }
+        }
+    }
 }

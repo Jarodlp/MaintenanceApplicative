@@ -12,7 +12,9 @@ public class CalendarManager {
     }
 
     public void ajouterEvent(Event e) {
-        events.add(e);
+        if (events.stream().noneMatch(event -> conflit(event, e))) {
+            events.add(e);
+        }
     }
 
     public List<Event> eventsDansPeriode(LocalDateTime debut, LocalDateTime fin) {
@@ -42,10 +44,7 @@ public class CalendarManager {
             return false; // Simplification abusive
         }
 
-        if (e1.dateDebut.isBefore(fin2) && fin1.isAfter(e2.dateDebut)) {
-            return true;
-        }
-        return false;
+        return e1.dateDebut.isBefore(fin2) && fin1.isAfter(e2.dateDebut);
     }
 
     public void afficherEvenements() {
