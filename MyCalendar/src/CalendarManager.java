@@ -1,31 +1,31 @@
+import event.Event;
+import event.Periodique;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarManager {
-    public List<Event> events;
+    public Evenements events;
 
     public CalendarManager() {
-        this.events = new ArrayList<>();
+        this.events = new Evenements();
     }
 
-    public void ajouterEvent(String type, String title, String proprietaire, LocalDateTime dateDebut, int dureeMinutes,
-                             String lieu, String participants, int frequenceJours) {
-        Event e = new Event(type, title, proprietaire, dateDebut, dureeMinutes, lieu, participants, frequenceJours);
+    public void ajouterEvent(Event e) {
         events.add(e);
     }
 
     public List<Event> eventsDansPeriode(LocalDateTime debut, LocalDateTime fin) {
-        List<Event> result = new ArrayList<>();
+        List<Event> result = new Evenements();
         for (Event e : events) {
-            if (e.type.equals("PERIODIQUE")) {
+            if (e instanceof Periodique) {
                 LocalDateTime temp = e.dateDebut;
                 while (temp.isBefore(fin)) {
                     if (!temp.isBefore(debut)) {
                         result.add(e);
                         break;
                     }
-                    temp = temp.plusDays(e.frequenceJours);
+                    temp = temp.plusDays(((Periodique) e).frequenceJours);
                 }
             } else if (!e.dateDebut.isBefore(debut) && !e.dateDebut.isAfter(fin)) {
                 result.add(e);
@@ -35,10 +35,10 @@ public class CalendarManager {
     }
 
     public boolean conflit(Event e1, Event e2) {
-        LocalDateTime fin1 = e1.dateDebut.plusMinutes(e1.dureeMinutes);
-        LocalDateTime fin2 = e2.dateDebut.plusMinutes(e2.dureeMinutes);
+        LocalDateTime fin1 = e1.dateDebut.plusMinutes(e1.dureeMinutes.dureeMinutes());
+        LocalDateTime fin2 = e2.dateDebut.plusMinutes(e2.dureeMinutes.dureeMinutes());
 
-        if (e1.type.equals("PERIODIQUE") || e2.type.equals("PERIODIQUE")) {
+        if (e1.getClass() == Periodique.class && e2.getClass() == Periodique.class) {
             return false; // Simplification abusive
         }
 
