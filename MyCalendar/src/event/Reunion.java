@@ -1,15 +1,18 @@
 package event;
 
+import event.propriete.Lieu;
+import event.propriete.Participants;
+
 import java.time.LocalDateTime;
 public class Reunion extends Event {
 
-    public String lieu;
-    public String participants;
+    public Lieu lieu;
+    public Participants participants;
 
     public Reunion(String title, String proprietaire, LocalDateTime dateDebut, int dureeMinutes, String lieu, String participants) {
         super(title, proprietaire, dateDebut, dureeMinutes);
-        this.lieu = lieu;
-        this.participants = participants;
+        this.lieu = new Lieu(lieu);
+        this.participants = new Participants(participants);
     }
 
     @Override

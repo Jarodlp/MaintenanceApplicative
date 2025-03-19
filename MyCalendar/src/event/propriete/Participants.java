@@ -1,9 +1,9 @@
 package event.propriete;
 
-public record Title (String title) {
+public record Participants(String participants) {
 
     @Override
     public String toString() {
-        return title;
+        return participants;
     }
 }
