@@ -1,5 +1,4 @@
 import event.*;
-import event.propriete.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -56,5 +55,21 @@ public class TestCalendarManager {
         assertEquals("Réunion : les réunions 7 à Webedia avec Cyprien, 100 figurants, cadreurs, etc ...", event2.description());
         Event event3 = new Periodique("rdv ultra secret", "Anonymous", LocalDateTime.now(), 5,2);
         assertEquals("Événement périodique : rdv ultra secret tous les 2 jours", event3.description());
+    }
+
+    @Test
+    public void testSupprimerEventParSonEventId() {
+        CalendarManager calendarManager = new CalendarManager();
+        Event event1 = new RdvPersonnel("rdv professionnel", "Moi", LocalDateTime.now(), 60);
+        Event event2 = new RdvPersonnel("rdv médical", "Moi", LocalDateTime.now().plusDays(1), 60);
+        Event event3 = new RdvPersonnel("rdv ultra secret", "Anonymous", LocalDateTime.now().plusDays(2), 60);
+        calendarManager.ajouterEvent(event1);
+        calendarManager.ajouterEvent(event2);
+        calendarManager.ajouterEvent(event3);
+        assertEquals(3, calendarManager.events.size());
+        calendarManager.events.supprimerEventParSonEventId(event2.eventId.eventId);
+        assertEquals(2, calendarManager.events.size());
+        assertEquals(event1, calendarManager.events.get(0));
+        assertEquals(event3, calendarManager.events.get(1));
     }
 }
