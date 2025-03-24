@@ -12,6 +12,7 @@ public class CalendarManager {
     }
 
     public void ajouterEvent(Event e) {
+        // On détecte automatiquement les conflits quand on ajoute un nouvel événement
         if (events.stream().noneMatch(event -> conflit(event, e))) {
             events.add(e);
         }
