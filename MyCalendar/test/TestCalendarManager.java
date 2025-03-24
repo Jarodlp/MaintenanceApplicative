@@ -49,8 +49,10 @@ public class TestCalendarManager {
 
     @Test
     public void testDescription() {
-        Event event1 = new RdvPersonnel("rdv professionnel", "Moi", LocalDateTime.now(), 60);
-        assertEquals("RDV : rdv professionnel à " + LocalDateTime.now(), event1.description());
+        // On crée une date fixe pour éviter les problèmes de comparaison
+        LocalDateTime now = LocalDateTime.now();
+        Event event1 = new RdvPersonnel("rdv professionnel", "Moi", now, 60);
+        assertEquals("RDV : rdv professionnel à " + now, event1.description());
         Event event2 = new Reunion("les réunions 7", "Cyprien", LocalDateTime.now().plusDays(1).plusMinutes(30), 30, "Webedia", "Cyprien, 100 figurants, cadreurs, etc ...");
         assertEquals("Réunion : les réunions 7 à Webedia avec Cyprien, 100 figurants, cadreurs, etc ...", event2.description());
         Event event3 = new Periodique("rdv ultra secret", "Anonymous", LocalDateTime.now(), 5,2);
@@ -71,5 +73,17 @@ public class TestCalendarManager {
         assertEquals(2, calendarManager.events.size());
         assertEquals(event1, calendarManager.events.get(0));
         assertEquals(event3, calendarManager.events.get(1));
+    }
+
+    @Test
+    public void testNouveauEventFete() {
+        // On crée une date fixe pour éviter les problèmes de comparaison
+        LocalDateTime now = LocalDateTime.now();
+        CalendarManager calendarManager = new CalendarManager();
+        Event event = new Fete("Bal de fin d'année", "Mairie de Nancy", now, 240, "Nancy", "Tenue de soirée");
+        assertEquals("Fête : Bal de fin d'année à Nancy le " + now + " avec dresscode : Tenue de soirée", event.description());
+        calendarManager.ajouterEvent(event);
+        assertEquals(1, calendarManager.events.size());
+        assertEquals(event, calendarManager.events.get(0));
     }
 }
