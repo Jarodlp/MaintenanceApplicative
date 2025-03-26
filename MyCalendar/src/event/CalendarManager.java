@@ -1,5 +1,4 @@
-import event.Event;
-import event.Periodique;
+package event;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,11 +10,13 @@ public class CalendarManager {
         this.events = new Evenements();
     }
 
-    public void ajouterEvent(Event e) {
+    public boolean ajouterEvent(Event e) {
         // On détecte automatiquement les conflits quand on ajoute un nouvel événement
         if (events.stream().noneMatch(event -> conflit(event, e))) {
             events.add(e);
+            return true;
         }
+        return false;
     }
 
     public List<Event> eventsDansPeriode(LocalDateTime debut, LocalDateTime fin) {

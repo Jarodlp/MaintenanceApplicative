@@ -1,14 +1,16 @@
-package action;
+package action.auth;
+
+import action.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Auth implements Action{
+public class Auth implements Action {
 
     public final Scanner scanner = new Scanner(System.in);
     public ArrayList<Utilisateur> utilisateurs = new ArrayList<>();
-    public Utilisateur utilisateurCourant = new Utilisateur("","");
+    public Utilisateur utilisateurCourant = new Utilisateur("", "");
 
     public Auth() {
         utilisateurs.add(new Utilisateur("Roger", "Chat"));
@@ -33,15 +35,17 @@ public class Auth implements Action{
         utilisateurCourant.motDePasse = scanner.nextLine();
 
         // On ne peut retourner true qu'en se connectant à un compte existant
-        List<Action> actions = new ArrayList<>(){{
+        List<Action> actions = new ArrayList<>() {{
             add(new Connexion(Auth.this));
             add(new Inscription(Auth.this));
         }};
         boolean bool = actions.get(choix - 1).execute();
 
-        // Si vrai, on redirige vers d'autres actions sans passer par le Main si possible et sinon on rappelle Auth
-        //TODO
-
-        return bool;
+        // Si vrai, on redirige vers d'autres actions sans passer par le Main et sinon on rappelle Auth
+        if (bool) {
+            return new GestionnaireEvenements(utilisateurCourant).execute();
+        } else {
+            return execute();
+        }
     }
 }

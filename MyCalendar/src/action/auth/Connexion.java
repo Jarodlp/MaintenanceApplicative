@@ -1,4 +1,6 @@
-package action;
+package action.auth;
+
+import action.Action;
 
 public class Connexion implements Action {
     private final Auth auth;

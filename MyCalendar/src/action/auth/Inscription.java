@@ -1,4 +1,6 @@
-package action;
+package action.auth;
+
+import action.Action;
 
 public class Inscription implements Action {
     private final Auth auth;
